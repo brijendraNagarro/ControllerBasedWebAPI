@@ -77,10 +77,17 @@ namespace WebAPIProject.Controllers
         [HttpPost]
         public async Task<ActionResult<Employee>> PostEmployee(Employee employee)
         {
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Employees.Add(employee);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction("GetEmployee", new { id = employee.Id }, employee);
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
 
-            return CreatedAtAction("GetEmployee", new { id = employee.Id }, employee);
         }
 
         // DELETE: api/Employees/5
