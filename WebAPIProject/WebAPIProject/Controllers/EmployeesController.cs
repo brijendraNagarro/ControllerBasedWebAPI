@@ -79,6 +79,8 @@ namespace WebAPIProject.Controllers
         {
             try
             {
+                int highestId = _context.Employees.Any() ? _context.Employees.Max(e => e.Id) : 0;
+                employee.Id = highestId + 1;
                 _context.Employees.Add(employee);
                 await _context.SaveChangesAsync();
                 return CreatedAtAction("GetEmployee", new { id = employee.Id }, employee);
